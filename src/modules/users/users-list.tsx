@@ -1,18 +1,26 @@
 import { memo, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector, type AppDispatch } from '../../store';
 import { useDispatch } from 'react-redux';
-import { initialUsers, usersSlice, type User, type UserId } from './users.slice';
+import { usersSlice, type User, type UserId } from './users.slice';
+import { api } from '../../shared/api';
 
 export function UsersList() {
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc'); // изменять выбранный способ в редаксе
   const dispatch = useAppDispatch();
   const { selectedUserId, selectSortedUsers } = usersSlice.selectors;
 
-  const { store } = usersSlice.actions;
-
   useEffect(() => {
-    dispatch(store({ users: initialUsers }));
-  }, []);
+    dispatch(usersSlice.actions.fetchUsersPending());
+    api
+      .getUsers()
+      .then((users) => {
+        dispatch(usersSlice.actions.fetchUsersSuccess({ users: users }));
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(usersSlice.actions.fetchUsersFailed());
+      });
+  }, [dispatch]);
 
   const sortedUsers = useAppSelector((state) => selectSortedUsers(state, sortType));
   // console.log(sortedUsers);
@@ -44,19 +52,19 @@ export function UsersList() {
           </ul>
         </div>
       ) : (
-        <SelectedUser userId={selectedUser} />
+        <SelectedUser />
       )}
     </div>
   );
 }
 
 const UserListItem = memo(function UserListItem({ userId }: { userId: UserId }) {
-  const user = useAppSelector((state) => usersSlice.selectors.selectSelectedUser(state, userId));
+  const user = useAppSelector((state) => usersSlice.selectors.selectUser(state, userId));
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleUserClick = () => {
-    dispatch({ type: 'selectUser', payload: { userId: userId } });
+    dispatch(usersSlice.actions.select({ userId }));
   };
 
   return (
@@ -66,14 +74,14 @@ const UserListItem = memo(function UserListItem({ userId }: { userId: UserId }) 
   );
 });
 
-function SelectedUser({ userId }: { userId: UserId }) {
-  const user = useAppSelector((state) => usersSlice.selectors.selectSelectedUser(state, userId));
-
+function SelectedUser() {
   const dispatch = useDispatch<AppDispatch>();
-  const handleUserClick = () => {
-    dispatch({ type: 'unselectUser' });
-  };
+  const userId = useAppSelector((state) => usersSlice.selectors.selectSelectedUser(state));
+  const user = useAppSelector((state) => usersSlice.selectors.selectUser(state, userId));
 
+  const handleUserClick = () => {
+    dispatch(usersSlice.actions.unselect());
+  };
   return (
     <div className="flex flex-col items-center">
       <button

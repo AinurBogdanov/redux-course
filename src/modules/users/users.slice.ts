@@ -12,11 +12,13 @@ export type UsersState = {
   entities: Record<UserId, User>;
   ids: string[];
   selectedUserId: UserId | undefined;
+  fetchUsersStatus: 'idle' | 'pending' | 'success' | 'failed';
 };
 const initialUsersState: UsersState = {
   entities: {},
   ids: [],
   selectedUserId: undefined,
+  fetchUsersStatus: 'idle',
 };
 
 export const initialUsers = Array.from({ length: 3000 }, (_, index) => ({
@@ -46,19 +48,26 @@ export const usersSlice = createSlice({
           });
       },
     ),
-    selectSelectedUser: (state, id) => state.entities[id],
+    selectSelectedUser: (state) => state.selectedUserId,
+    selectUser: (state, id) => state.entities[id],
+    selectIsFetchUsersPending: (state) => state.fetchUsersStatus === 'pending',
+    selectIsFetchUsersIdle: (state) => state.fetchUsersStatus === 'idle',
   },
   reducers: {
-    store: (state, action: PayloadAction<{ users: User[] }>) => {
+    fetchUsersPending: (state) => {
+      state.fetchUsersStatus = 'pending';
+    },
+    fetchUsersSuccess: (state, action: PayloadAction<{ users: User[] }>) => {
+      state.fetchUsersStatus = 'success';
       const users = action.payload.users;
-      return {
-        ...state,
-        entities: users.reduce<Record<UserId, User>>((acc, u) => {
-          acc[u.id] = u;
-          return acc;
-        }, {}),
-        ids: users.map((u) => u.id),
-      };
+      state.entities = users.reduce<Record<UserId, User>>((acc, u) => {
+        acc[u.id] = u;
+        return acc;
+      }, {});
+      state.ids = users.map((u) => u.id);
+    },
+    fetchUsersFailed: (state) => {
+      state.fetchUsersStatus = 'failed';
     },
     select: (state, action: PayloadAction<{ userId: UserId }>) => {
       state.selectedUserId = action.payload.userId;
