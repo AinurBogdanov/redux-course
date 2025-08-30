@@ -1,31 +1,23 @@
 import { memo, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector, type AppDispatch } from '../../store';
+import { useAppSelector, useAppStore, type AppDispatch } from '../../store';
 import { useDispatch } from 'react-redux';
 import { usersSlice, type User, type UserId } from './users.slice';
-import { api } from '../../shared/api';
+import { fetchUsers } from './module/fetch-users';
 
 export function UsersList() {
-  const [sortType, setSortType] = useState<'asc' | 'desc'>('asc'); // изменять выбранный способ в редаксе
-  const dispatch = useAppDispatch();
-  const { selectedUserId, selectSortedUsers } = usersSlice.selectors;
+  const [sortType, setSortType] = useState<'asc' | 'desc'>('asc');
+  // const dispatch = useAppDispatch();
+  const appStore = useAppStore();
+  console.count('update UserList');
 
   useEffect(() => {
-    dispatch(usersSlice.actions.fetchUsersPending());
-    api
-      .getUsers()
-      .then((users) => {
-        dispatch(usersSlice.actions.fetchUsersSuccess({ users: users }));
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(usersSlice.actions.fetchUsersFailed());
-      });
-  }, [dispatch]);
+    appStore.dispatch(fetchUsers);
+  }, []);
 
-  const sortedUsers = useAppSelector((state) => selectSortedUsers(state, sortType));
-  // console.log(sortedUsers);
-
-  const selectedUser = useAppSelector((state) => selectedUserId(state));
+  const sortedUsers = useAppSelector((state) =>
+    usersSlice.selectors.selectSortedUsers(state, sortType),
+  );
+  const selectedUser = useAppSelector((state) => usersSlice.selectors.selectedUserId(state));
 
   return (
     <div className="flex flex-col items-center">
