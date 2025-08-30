@@ -7,11 +7,7 @@ import {
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { countersReducer } from './modules/counters/counters.slice';
 import { usersSlice } from './modules/users/users.slice';
-import { api } from './shared/api';
-
-const extraArgument = {
-  api,
-};
+import { extraArgument } from './extra-arguments';
 
 const reducer = combineReducers({
   counters: countersReducer,

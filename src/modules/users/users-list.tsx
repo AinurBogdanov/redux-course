@@ -11,7 +11,7 @@ export function UsersList() {
   console.count('update UserList');
 
   useEffect(() => {
-    appStore.dispatch(fetchUsers());
+    appStore.dispatch(fetchUsers({}));
   }, [appStore]);
 
   const sortedUsers = useAppSelector((state) =>

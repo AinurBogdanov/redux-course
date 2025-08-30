@@ -2,14 +2,14 @@ import type { AppThunk } from '../../../store';
 import { usersSlice } from '../users.slice';
 
 export const fetchUsers =
-  (): AppThunk =>
-  (dispatch, getState, { api }) => {
+  ({ refetch = false }: { refetch?: boolean }): AppThunk<Promise<void>> =>
+  async (dispatch, getState, { api }) => {
     const isIdle = usersSlice.selectors.selectIsFetchUsersIdle(getState());
-    if (!isIdle) return;
+    if (!isIdle && !refetch) return;
 
     dispatch(usersSlice.actions.fetchUsersPending());
 
-    api
+    return api
       .getUsers()
       .then((users) => {
         dispatch(usersSlice.actions.fetchUsersSuccess({ users: users }));
