@@ -1,9 +1,24 @@
 {
   "users": [
     {
+      "id": "4",
+      "name": "Rahul Mehta",
+      "description": "Mobile developer, flutter expert, gamer."
+    },
+    {
+      "id": "5",
+      "name": "Maria Lopez",
+      "description": "QA engineer, enjoys travel and yoga."
+    },
+    {
       "id": "7",
       "name": "Sophia Muller",
       "description": "UX/UI designer, art lover, cyclist."
+    },
+    {
+      "id": "8",
+      "name": "Jake Peterson",
+      "description": "Frontend developer, React enthusiast, coffee lover."
     },
     {
       "id": "9",
@@ -11,9 +26,24 @@
       "description": "Backend engineer, Go specialist, hiker."
     },
     {
+      "id": "10",
+      "name": "Anna Ivanova",
+      "description": "Project manager, Scrum Master, bookworm."
+    },
+    {
       "id": "11",
       "name": "Olivier Dubois",
       "description": "DevOps engineer, Docker guru, music fan."
+    },
+    {
+      "id": "12",
+      "name": "Carla Moretti",
+      "description": "Data scientist, Python addict, chess player."
+    },
+    {
+      "id": "13",
+      "name": "Samuel Lee",
+      "description": "Android developer, foodie, travel photographer."
     }
   ]
 }
