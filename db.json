@@ -2,58 +2,58 @@
   "users": [
     {
       "id": "1",
-      "name": "Ainur",
-      "description": "I am a developer !!!"
+      "name": "Ivan Petrov",
+      "description": "Backend developer, enjoys coffee and chess."
     },
     {
       "id": "2",
-      "name": "Ainur0",
-      "description": "I am a developer !!!"
+      "name": "Alex Smith",
+      "description": "Frontend wizard, React and Vue enthusiast."
     },
     {
       "id": "3",
-      "name": "Ainur1",
-      "description": "I am a developer !!!"
+      "name": "Linda Lee",
+      "description": "Fullstack dev, loves hiking and reading sci-fi."
     },
     {
       "id": "4",
-      "name": "Ainur2",
-      "description": "I am a developer !!!"
+      "name": "Rahul Mehta",
+      "description": "Mobile developer, flutter expert, gamer."
     },
     {
       "id": "5",
-      "name": "Ainur3",
-      "description": "I am a developer !!!"
+      "name": "Maria Lopez",
+      "description": "QA engineer, enjoys travel and yoga."
     },
     {
       "id": "6",
-      "name": "Ainur4",
-      "description": "I am a developer !!!"
+      "name": "Chen Wang",
+      "description": "DevOps specialist, automation fan."
     },
     {
       "id": "7",
-      "name": "Ainur5",
-      "description": "I am a developer !!!"
+      "name": "Sophia Muller",
+      "description": "UX/UI designer, art lover, cyclist."
     },
     {
       "id": "8",
-      "name": "Ainur6",
-      "description": "I am a developer !!!"
+      "name": "John Doe",
+      "description": "ML engineer, likes podcasts and tacos."
     },
     {
       "id": "9",
-      "name": "Ainur7",
-      "description": "I am a developer !!!"
+      "name": "Anna Kuznetsova",
+      "description": "Java developer, board games fan."
     },
     {
       "id": "10",
-      "name": "Ainur8",
-      "description": "I am a developer !!!"
+      "name": "David Kim",
+      "description": "Security expert, into running and photography."
     },
     {
       "id": "11",
-      "name": "Ainur9",
-      "description": "I am a developer !!!"
+      "name": "Fatima Zahra",
+      "description": "Cloud architect, tea lover."
     }
   ]
 }
