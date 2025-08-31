@@ -1,26 +1,21 @@
 import { useNavigate, useParams } from 'react-router';
-import { usersSlice, type UserId } from './users.slice';
-import { useAppSelector, useAppDispatch } from '../../shared/redux';
-import { useEffect } from 'react';
+import type { UserId } from './users.slice';
+import { usersApi } from './api';
+
 function UserInfo() {
   const { userId = '' } = useParams<{ userId: UserId }>();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isPending = useAppSelector(usersSlice.selectors.selectIsFetchUserPending);
-  const user = useAppSelector((state) => usersSlice.selectors.selectUserById(state, userId));
 
-  useEffect(() => {
-    dispatch(usersSlice.actions.fetchUser({ userId: userId }));
-  }, [dispatch, userId]);
+  const [deleteUser] = usersApi.useDeleteUserMutation();
 
-  if (isPending || !user) {
-    return <div>Loading ...</div>;
+  const { data: user, isLoading } = usersApi.useGetUserQuery(userId);
+  if (isLoading || !user) {
+    return <div>💀 Loading ...</div>;
   }
 
   function handleDelete() {
-    dispatch(usersSlice.actions.deleteUser({ userId: userId })).then(() =>
-      navigate('..', { relative: 'path' }),
-    );
+    deleteUser(userId);
+    navigate('..', { relative: 'path' });
   }
 
   return (

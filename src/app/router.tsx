@@ -3,7 +3,7 @@ import { store } from './store';
 import { UsersList } from '../modules/users/users-list';
 import UserInfo from '../modules/users/user-info';
 import { Counters } from '../modules/counters/counters';
-import { usersSlice } from '../modules/users/users.slice';
+import { usersApi } from '../modules/users/api';
 
 const loadStore = () =>
   new Promise((resolve) => {
@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
         element: <UsersList />,
         loader: () => {
           loadStore().then(() => {
-            store.dispatch(usersSlice.actions.fetchUsers());
+            store.dispatch(usersApi.util.prefetch('getUsers', undefined, { force: true }));
           });
           return null;
         },
@@ -40,14 +40,6 @@ export const router = createBrowserRouter([
       {
         path: 'users/:userId',
         element: <UserInfo />,
-        loader: ({ params }) => {
-          loadStore().then(() => {
-            if (params.userId) {
-              store.dispatch(usersSlice.actions.fetchUser({ userId: params.userId }));
-            }
-          });
-          return null;
-        },
       },
       {
         path: 'counters',

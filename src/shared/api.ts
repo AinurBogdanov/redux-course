@@ -1,29 +1,10 @@
-import { z } from 'zod';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 const baseUrl = 'http://localhost:3000';
 
-const UserDtoSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
+export const baseApi = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl }),
+  tagTypes: ['Users'],
+  endpoints: () => ({}),
 });
-
-export const api = {
-  getUsers: () => {
-    return fetch(`${baseUrl}/users`)
-      .then((res) => res.json())
-      .then((res) => {
-        return UserDtoSchema.array().parse(res);
-      });
-  },
-  getUser: (id: string) => {
-    return fetch(`${baseUrl}/users/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        return UserDtoSchema.parse(res);
-      });
-  },
-  deleteUser: (id: string) => {
-    return fetch(`${baseUrl}/users/${id}`, { method: 'Delete' }).then((res) => res.json());
-  },
-};
