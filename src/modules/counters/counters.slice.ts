@@ -1,5 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
-import type { AppState } from '../../store';
+import type { AppState } from '../../shared/redux';
 
 //actions
 export const incrementAction = createAction<{

@@ -1,24 +1,15 @@
-import { memo, useEffect, useState } from 'react';
-import { useAppSelector, useAppStore } from '../../store';
+import { memo, useState } from 'react';
+import { useAppSelector } from '../../shared/redux';
 import { usersSlice, type User, type UserId } from './users.slice';
-import { fetchUsers } from './module/fetch-users';
 import { useNavigate } from 'react-router';
 
 export function UsersList() {
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc');
-  // const dispatch = useAppDispatch();
-  const appStore = useAppStore();
   console.count('update UserList');
-
-  useEffect(() => {
-    appStore.dispatch(fetchUsers({}));
-  }, [appStore]);
 
   const sortedUsers = useAppSelector((state) =>
     usersSlice.selectors.selectSortedUsers(state, sortType),
   );
-  // const selectedUser = useAppSelector((state) => usersSlice.selectors.selectedUserId(state));
-  // console.log(sortedUsers);
 
   return (
     <div className="flex flex-col items-center">
